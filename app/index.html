@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profiles</title>
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --primary-soft: #eef2ff;
+        --bg-color: #f8fafc;
+        --card-bg: #ffffff;
+        --text-color: #111827;
+        --muted-color: #6b7280;
+        --border-color: #d1d5db;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        min-height: 100vh;
+        padding: 1rem;
+      }
+
+      .page-grid {
+        display: grid;
+        grid-template-columns: 1fr 460px;
+        gap: 1rem;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .sidebar,
+      .main-content {
+        background-color: var(--card-bg);
+        border-radius: 24px;
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+        padding: 1.5rem;
+      }
+
+      .sidebar-header,
+      .form-header {
+        margin-bottom: 1.5rem;
+      }
+
+      .sidebar-header h2,
+      .form-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .sidebar-header p,
+      .form-header p {
+        margin-top: 0.5rem;
+        color: var(--muted-color);
+        line-height: 1.6;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+      }
+
+      .user-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 640px;
+      }
+
+      .user-table th,
+      .user-table td {
+        padding: 0.9rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      .user-table th {
+        font-weight: 700;
+        background-color: var(--primary-soft);
+        color: var(--text-color);
+      }
+
+      .user-table tbody tr {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .user-table tbody tr:hover,
+      .user-table tbody tr.selected {
+        background-color: var(--primary-soft);
+      }
+
+      .user-table td.truncate {
+        max-width: 180px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .empty-state {
+        color: var(--muted-color);
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .layout-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.25rem;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      .hint {
+        margin-top: 0.25rem;
+        color: var(--muted-color);
+        font-size: 0.85rem;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      select,
+      textarea,
+      input[type="file"] {
+        width: 100%;
+        padding: 0.88rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        background-color: #ffffff;
+        font-size: 0.97rem;
+        color: var(--text-color);
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+      }
+
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .profile-pic-container {
+        display: grid;
+        justify-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .profile-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 24px;
+        object-fit: cover;
+        border: 3px solid rgba(79, 70, 229, 0.22);
+        background-color: #eef2ff;
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+
+      .button-row {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+
+      .submit-btn,
+      .secondary-btn {
+        border: none;
+        border-radius: 14px;
+        padding: 0.95rem 1rem;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          background-color 0.2s ease;
+      }
+
+      .submit-btn {
+        width: 100%;
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .secondary-btn {
+        background-color: #f3f4f6;
+        color: var(--text-color);
+      }
+
+      .submit-btn:hover {
+        background-color: #4338ca;
+        transform: translateY(-1px);
+      }
+
+      .secondary-btn:hover {
+        background-color: #e5e7eb;
+      }
+
+      .status-text {
+        font-size: 0.95rem;
+        color: var(--muted-color);
+        margin-bottom: 1rem;
+      }
+
+      @media (max-width: 960px) {
+        .page-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .layout-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-grid">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>User List</h2>
+          <p>Select a profile to view details and edit it.</p>
+        </div>
+        <div class="button-row">
+          <button id="newProfileBtn" type="button" class="secondary-btn">
+            New Profile
+          </button>
+        </div>
+        <div class="table-wrapper">
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Country</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody id="userList"></tbody>
+          </table>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="form-header">
+          <h2>Profile Details</h2>
+          <p id="formStatus">
+            No user selected. Fill in the form to create a profile.
+          </p>
+        </div>
+
+        <div class="actions">
+          <button
+            id="editProfileBtn"
+            type="button"
+            class="secondary-btn"
+            disabled
+          >
+            Edit Profile
+          </button>
+        </div>
+
+        <form id="userDataForm" method="post" action="">
+          <div class="profile-pic-container">
+            <img
+              id="imagePreview"
+              src="https://randomuser.me/api/portraits/lego/7.jpg"
+              alt="Profile preview"
+              class="profile-preview"
+            />
+            <div class="file-input-wrapper">
+              <input
+                type="file"
+                id="profilePic"
+                name="profilePic"
+                accept="image/*"
+              />
+            </div>
+          </div>
+
+          <div class="layout-row">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="firstName" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="lastName" required />
+            </div>
+          </div>
+
+          <div class="layout-row">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+          </div>
+
+          <div class="layout-row">
+            <div class="form-group">
+              <label for="birthday">Birthday</label>
+              <input type="date" id="birthday" name="birthday" />
+            </div>
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select id="country" name="country">
+                <option value="">Select a country</option>
+                <option value="us">United States</option>
+                <option value="ca">Canada</option>
+                <option value="uk">United Kingdom</option>
+                <option value="au">Australia</option>
+                <option value="de">Germany</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea
+              id="bio"
+              name="bio"
+              rows="4"
+              placeholder="Tell us a little bit about yourself..."
+            ></textarea>
+            <p class="hint">Share a short personal summary for your profile.</p>
+          </div>
+
+          <button type="button" class="submit-btn">Create Profile</button>
+        </form>
+      </main>
+    </div>
+    <script type="module" src="./profileClient.js"></script>
+  </body>
+</html>
