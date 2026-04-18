@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration Form</title>
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --primary-soft: #eef2ff;
+        --bg-color: #f8fafc;
+        --card-bg: #ffffff;
+        --text-color: #111827;
+        --muted-color: #6b7280;
+        --border-color: #d1d5db;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1rem;
+      }
+
+      .form-container {
+        background-color: var(--card-bg);
+        padding: 2rem;
+        border-radius: 24px;
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+        width: 100%;
+        max-width: 580px;
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 1.75rem;
+      }
+
+      .form-header h2 {
+        margin: 0;
+        font-size: 1.75rem;
+        letter-spacing: -0.02em;
+      }
+
+      .form-header p {
+        margin-top: 0.5rem;
+        color: var(--muted-color);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .profile-pic-container {
+        display: grid;
+        justify-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.75rem;
+      }
+
+      .profile-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 24px;
+        object-fit: cover;
+        border: 3px solid rgba(79, 70, 229, 0.22);
+        background-color: #eef2ff;
+      }
+
+      .file-input-wrapper {
+        display: inline-flex;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .file-input-wrapper input[type="file"] {
+        width: 100%;
+      }
+
+      .grid-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.25rem;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      .hint {
+        margin-top: 0.25rem;
+        color: var(--muted-color);
+        font-size: 0.85rem;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 0.88rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        background-color: #ffffff;
+        font-size: 0.97rem;
+        color: var(--text-color);
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+      }
+
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .submit-btn {
+        width: 100%;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.95rem 1rem;
+        border: none;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          background-color 0.2s ease;
+      }
+
+      .submit-btn:hover {
+        background-color: #4338ca;
+        transform: translateY(-1px);
+      }
+
+      @media (max-width: 640px) {
+        .grid-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="form-header">
+        <h2>Profile Details</h2>
+        <p>
+          Fill in your user information and upload a profile picture. JavaScript
+          handling can be added later.
+        </p>
+      </div>
+
+      <form id="userDataForm" method="post" action="">
+        <div class="profile-pic-container">
+          <img
+            id="imagePreview"
+            src="https://randomuser.me/api/portraits/lego/7.jpg"
+            alt="Profile preview"
+            class="profile-preview"
+          />
+          <div class="file-input-wrapper">
+            <input
+              type="file"
+              id="profilePic"
+              name="profilePic"
+              accept="image/*"
+            />
+          </div>
+        </div>
+
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="Jane"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Doe"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="jane.doe@example.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="(555) 123-4567"
+            />
+          </div>
+        </div>
+
+        <div class="grid-row">
+          <div class="form-group">
+            <label for="birthday">Birthday</label>
+            <input type="date" id="birthday" name="birthday" />
+          </div>
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" name="country">
+              <option value="">Select a country</option>
+              <option value="us">United States</option>
+              <option value="ca">Canada</option>
+              <option value="uk">United Kingdom</option>
+              <option value="au">Australia</option>
+              <option value="de">Germany</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea
+            id="bio"
+            name="bio"
+            rows="4"
+            placeholder="Tell us a little bit about yourself..."
+          ></textarea>
+          <p class="hint">Share a short personal summary for your profile.</p>
+        </div>
+
+        <button type="button" class="submit-btn">Save Profile</button>
+      </form>
+    </div>
+    <script type="module" src="./profileClient.js"></script>
+  </body>
+</html>
