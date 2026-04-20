@@ -53,7 +53,8 @@ function formatProfile(profile) {
 }
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "../app/index.html")); //
+  console.log("Serving index.html from:", path.join(__dirname, "/app/index.html"));
 });
 
 app.get("/api/users", async (req, res) => {
