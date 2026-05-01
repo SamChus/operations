@@ -8,13 +8,17 @@ import bodyParser from "body-parser";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const PORT = process.env.PORT || 3000;
+const MONGO_USERNAME = process.env.MONGO_USERNAME;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+
 const app = express();
 app.use(cors());
 app.use(express.static(__dirname));
 app.use(express.json({ limit: "15mb" }));
 app.use(bodyParser.json()); //use body-parser middleware to parse JSON request bodies
 
-const uri = "mongodb://admin:password@localhost:27017";
+const uri = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost:27017`;
 const client = new MongoClient(uri);
 const db = client.db("user-account");
 const userCollection = db.collection("user");
