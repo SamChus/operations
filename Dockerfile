@@ -1,5 +1,5 @@
 # 1. Ensure 'AS builder' is here (no spaces or typos)
-FROM node:24-alpine AS builder
+FROM node:24-alpine AS builder 
 
 WORKDIR /home/app
 COPY server/package.json ./
