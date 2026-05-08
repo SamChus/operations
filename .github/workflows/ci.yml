@@ -10,7 +10,11 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+       os: [ubuntu-latest, windows-latest, macos-latest]
+    
 
     steps:
     - uses: actions/checkout@v4
@@ -28,10 +32,10 @@ jobs:
         npm test
     - uses: mr-smithers-excellent/docker-build-push@v6
       name: Build & push Docker image
-      with:
+      with:                                                                                                  
         image: chusvybe/stev
         tags: v1, latest
         registry: docker.io
-        dockerfile: Dockerfile.ci
+        dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}

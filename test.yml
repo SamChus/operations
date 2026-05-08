@@ -1,0 +1,64 @@
+#yaml for docker compose file
+#version = key-value pair
+#services objects
+#service1 object
+#image: key-value pair
+#ports: list [- port mapping]
+#environment: list
+#muiltiline: | 
+#env variable using $ENV_VAR or ${ENV_VAR} or $((ENV_VAR)) 
+#placeholder for env variable: $((ENV_VAR)) - this is a custom syntax to indicate that the value should be replaced with the actual environment variable at runtime. It is not a standard Docker Compose syntax, but it can be used in your application code or scripts to indicate where environment variables should be substituted. 
+
+#kvp = key-value pair
+#nested objects = objects within objects (e.g., jobs within on)
+
+
+#yaml for github actions workflow
+#name: Docker Image CI - name of the workflow (kvp)
+#on: specifies the events that trigger the workflow. In this case, it triggers on push and pull request events to the main branch (nested objects)
+#jobs: defines the jobs that will run as part of the workflow (nested objects)
+#job1: name of the job - build (nested objects)
+#runs-on: specifies the type of runner to execute the job (kvp)
+#strategy: defines a matrix strategy to run the job on multiple operating systems (nested objects)
+#matrix: defines the matrix of operating systems to run the job on (nested objects)
+#os: list of operating systems (list)
+#steps: defines the steps to be executed in the job (list of nested objects)
+#step1: uses: actions/checkout@v4 - checks out the repository (kvp)
+#step2: uses: actions/setup-node@v6.4.0 - sets up the Node.js environment (kvp)
+#with: specifies the parameters for the setup-node action (nested objects)
+#node-version: specifies the version of Node.js to use (kvp)
+#cache: specifies the caching strategy for npm dependencies (kvp)
+#cache-dependency-path: specifies the path to the package-lock.json file for caching (kvp)
+#step3: name: Install and test server - installs dependencies and runs tests (kvp)
+#run: specifies the commands to run in the step (multiline string)
+#step4: uses: mr-smithers-excellent/docker-build-push@v6 - builds and pushes the Docker image (kvp)
+#with: specifies the parameters for the docker-build-push action (nested objects)
+#image: specifies the name of the Docker image to build (kvp)
+#tags: specifies the tags to apply to the Docker image (kvp)
+#dockerfile: specifies the Dockerfile to use for building the image (kvp)
+#username: specifies the Docker Hub username for authentication (kvp with secrets) - ${{ secrets.DOCKER_USERNAME }} is a GitHub Actions secret that securely stores the Docker Hub username, allowing it to be accessed in the workflow without exposing it in the code.
+#password: specifies the Docker Hub password for authentication (kvp)
+
+
+
+#yaml for gitlab ci
+#image: docker:24.0.5 - specifies the Docker image to use for the CI/CD pipeline (kvp)
+#services: defines the services that will be available during the pipeline execution (list of nested objects)
+#service1: name: docker:24.0.5-dind - specifies the Docker-in-Docker service to enable Docker commands within the pipeline (kvp)
+#alias: docker - assigns an alias to the service for easier reference in the pipeline (kvp)
+#variables: defines environment variables for the pipeline (nested objects)
+#DOCKER_HOST: specifies the Docker host to connect to (kvp)
+#DOCKER_TLS_CERTDIR: specifies the directory for TLS certificates (kvp)
+#DOCKER_BUILDKIT: enables BuildKit for Docker builds (kvp)
+#IMAGE_NAME: defines a variable for the Docker image name, using the CI_REGISTRY_IMAGE and CI_COMMIT_SHORT_SHA environment variables (kvp)
+#stages: defines the stages of the pipeline (list)
+#stage1: build - defines the build stage (kvp)
+#stage2: test - defines the test stage (kvp)
+#build_image: defines the job for building the Docker image (object)
+#stage: specifies the stage for the job (kvp)
+#before_script: defines commands to run before the main script (list)
+#script: defines the main commands to execute in the job (list)
+#run_tests: defines the job for running tests (object)
+#stage: specifies the stage for the job (kvp)
+#image: node:24-alpine - specifies the Docker image to use for the test job (kvp)
+#script: defines the commands to run in the test job (list)
